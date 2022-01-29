@@ -1,0 +1,32 @@
+[
+    {
+        "key": "4422",
+        "code": "MES 0100",
+        "title": "The Middle East: Cultures & Societies",
+        "crn": "26932",
+        "no": "S01",
+        "total": "1",
+        "schd": "S",
+        "stat": "A",
+        "hide": "",
+        "isCancelled": "",
+        "meets": "MWF 10-10:50a",
+        "mpkey": "2041",
+        "meetingTimes": "[{\"meet_day\":\"0\",\"start_time\":\"1000\",\"end_time\":\"1050\"},{\"meet_day\":\"2\",\"start_time\":\"1000\",\"end_time\":\"1050\"},{\"meet_day\":\"4\",\"start_time\":\"1000\",\"end_time\":\"1050\"}]",
+        "instr": "A. Winder",
+        "start_date": "2022-01-26",
+        "end_date": "2022-05-20",
+        "permreq": "N",
+        "rpt": "N",
+        "open_enroll": "",
+        "acad_career": "",
+        "cart_opts": "{\"grade_mode\":{\"cart_field\":\"p_gmod\",\"enabled\":true,\"options\":[{\"value\":\"G\",\"label\":\"Standard ABC/No Credit\",\"default\":true,\"selected\":\"selected\"},{\"value\":\"A\",\"label\":\"Audit\",\"default\":false,\"selected\":\"\"},{\"value\":\"S\",\"label\":\"Satisfactory/No Credit\",\"default\":false,\"selected\":\"\"}]},\"credit_hrs\":{\"cartField\":\"p_hours\",\"enabled\":true,\"options\":[{\"value\":\"1\",\"label\":\"1\",\"default\":true,\"selected\":\"selected\"}]},\"swap_section_with\":{\"enabled\":true,\"options\":[{\"value\":\"\",\"label\":\"Not Applicable\",\"default\":true,\"selected\":\"selected\"}]}}",
+        "linked_crns": "",
+        "auto_enroll_sections": "",
+        "is_enroll_section": "",
+        "rfam": "2153",
+        "lrfam": "",
+        "changehash": "4b9VpDcLeb5GQNFCDPdvBg",
+        "srcdb": "202120"
+    }
+]

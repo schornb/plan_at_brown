@@ -1,0 +1,32 @@
+[
+    {
+        "key": "5713",
+        "code": "PLME 0700",
+        "title": "Communication in Health Care",
+        "crn": "26738",
+        "no": "S01",
+        "total": "1",
+        "schd": "S",
+        "stat": "F",
+        "hide": "",
+        "isCancelled": "",
+        "meets": "W 3-5:30p",
+        "mpkey": "2039",
+        "meetingTimes": "[{\"meet_day\":\"2\",\"start_time\":\"1500\",\"end_time\":\"1730\"}]",
+        "instr": "T. Zink",
+        "start_date": "2022-01-26",
+        "end_date": "2022-05-20",
+        "permreq": "Y",
+        "rpt": "N",
+        "open_enroll": "",
+        "acad_career": "",
+        "cart_opts": "{\"grade_mode\":{\"cart_field\":\"p_gmod\",\"enabled\":true,\"options\":[{\"value\":\"G\",\"label\":\"Standard ABC/No Credit\",\"default\":true,\"selected\":\"selected\"},{\"value\":\"A\",\"label\":\"Audit\",\"default\":false,\"selected\":\"\"},{\"value\":\"S\",\"label\":\"Satisfactory/No Credit\",\"default\":false,\"selected\":\"\"}]},\"credit_hrs\":{\"cartField\":\"p_hours\",\"enabled\":true,\"options\":[{\"value\":\"1\",\"label\":\"1\",\"default\":true,\"selected\":\"selected\"}]},\"swap_section_with\":{\"enabled\":true,\"options\":[{\"value\":\"\",\"label\":\"Not Applicable\",\"default\":true,\"selected\":\"selected\"}]}}",
+        "linked_crns": "",
+        "auto_enroll_sections": "",
+        "is_enroll_section": "",
+        "rfam": "2744",
+        "lrfam": "",
+        "changehash": "Oa1tuF+85iwqee/kIwp3tg",
+        "srcdb": "202120"
+    }
+]
