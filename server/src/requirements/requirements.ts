@@ -1,5 +1,5 @@
-import { Degree, Requirement } from "../services/degreeRequirements";
-
+import { IDegree } from "src/models/Degree";
+import { Requirement } from "src/models/Degree";
 
 const math_cs_requirements: Requirement = {
     name: "Math CS",
@@ -19,14 +19,15 @@ const math_cs_requirements: Requirement = {
                 {
                     type: "all",
                     requirements: [
-                    { 
-                        type: "course",
-                        courseCode: "CSCI0170"
-                    },
-                    {
-                        type: "course",
-                        courseCode: "CSCI0180"  
-                    }]
+                        { 
+                            type: "course",
+                            courseCode: "CSCI0170"
+                        },
+                        {
+                            type: "course",
+                            courseCode: "CSCI0180"  
+                        }
+                    ]
                 },
                 {
                     type: "all",
@@ -46,7 +47,8 @@ const math_cs_requirements: Requirement = {
     ]
 };
 
-export const degree_math_cs: Degree = {
+export const degree_math_cs: IDegree = {
     name: "B.S. Mathematics-Computer Science",
-    requirements: math_cs_requirements
+    requirements: math_cs_requirements,
+    department: "CSCI"
 }
