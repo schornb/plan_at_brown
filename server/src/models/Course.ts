@@ -36,4 +36,4 @@ export interface ICourse {
     department: string;
 }
 
-export const Course = Mongoose.model('Course', CourseSchema);
+export const Course = Mongoose.model('Courses', CourseSchema);

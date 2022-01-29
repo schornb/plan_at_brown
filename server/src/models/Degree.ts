@@ -28,4 +28,4 @@ export interface Requirement{
     satisfyingCourses?: string[];
 }
 
-export const Degree = mongoose.model('Degree', DegreeSchema);
+export const Degree = mongoose.model('Degrees', DegreeSchema);
