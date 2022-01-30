@@ -59,13 +59,13 @@ export default function AddSemester(props: AddSemesterProps) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{ m: 1, minWidth: 120 }}>
             <Box mb={2} sx={{ display: "flex" }}>
               <InputLabel id="demo-simple-select-label">Season</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={season}
+                value={season ? season : "Season"}
                 placeholder="Select a season"
                 label="Season"
                 onChange={handleChange}

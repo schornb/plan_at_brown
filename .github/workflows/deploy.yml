@@ -1,61 +1,52 @@
-name: Deploy Production
+name: 🚀 Deploy Production
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build:
+  build-deploy:
+    name: 🎉 Build and Deploy
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: "Get latest code"
+      - name: 🚚 Get latest code
         uses: actions/checkout@v2
 
-      - name: 🔨 Set up Node 14.18.3
+      - name: 🔨 Set up Node 14.18.1
         uses: actions/setup-node@v2
         with:
-          node-version: 14.18.3
+          node-version: 14.18.1
 
-      - name: "Compile Backend"
+      - name: 🛠 Compile Backend
         run: |
           cd server
-          echo ${{ secrets.ENV_FILE }} > .env
           npm ci
           npm run build
-          rm -r src
-          mv -r dist src
           cd ..
-
-      - name: "Authenticate to Google Cloud"
-        id: "auth"
-        uses: "google-github-actions/auth@v0"
-        with:
-          project_id: ${{ secrets.GCP_PROJECT }}
-          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
-
-      - name: "Deploy to App Engine"
-        run: |
-          cd server
-          npm run deploy
-          cd ..
-
-      - name: "Test Backend"
-        run: curl "https://plan-at-brown-app.uc.r.appspot.com"
-
-      - name: "Build Frontend"
+          mkdir -p deploy/server/dist
+          cp -r server/dist deploy/server
+          cp server/* deploy/server || :
+          mkdir deploy/server/tmp
+          touch deploy/server/tmp/restart.txt
+      - name: ⛏ Build Frontend
         run: |
           cd client
           npm ci
           npm run build
           cd ..
+          mkdir -p deploy/public
+          cp -r client/build/* deploy/public
         env:
-          REACT_APP_API_BASE_URL: "https://plan-at-brown-app.uc.r.appspot.com"
+          REACT_APP_API_URL: ${{ secrets.API_URL }}
 
-      - name: "Deploy Frontend"
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PLAN_AT_BROWN_APP }}"
-          channelId: live
-          projectId: ${{ secrets.GCP_PROJECT }}
+      - name: ☁ SFTP Deploy
+        uses: easingthemes/ssh-deploy@v2
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: 21098
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+          SOURCE: ${{ secrets.SOURCE_DIR }}
