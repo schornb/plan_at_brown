@@ -65,13 +65,9 @@ function App() {
       mode: "cors",
       credentials: "include",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials": "true",
       },
-      body: JSON.stringify({
-        semester,
-      }),
+      body: JSON.stringify(semester),
     });
     if (res.status === 200) {
       getSemesters();
