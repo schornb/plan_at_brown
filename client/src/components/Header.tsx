@@ -1,7 +1,7 @@
 import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
 import React from "react";
 import IUser from "../types/IUser";
-import { handleLoginClick, handleLogoutClick } from "../utils/auth";
+import { handleLoginClick } from "../utils/auth";
 import AccountMenu from "./AccountMenu";
 
 interface HeaderProps {
@@ -18,12 +18,6 @@ export default function Header(props: HeaderProps) {
             Plan@Brown
           </Typography>
           {user ? (
-            // <Box sx={{ display: "inline-flex" }}>
-            //   <Avatar src={user.picture} />
-            //   <Button onClick={handleLogoutClick} color="inherit">
-            //     Logout
-            //   </Button>
-            // </Box>
             <AccountMenu user={user} />
           ) : (
             <Button color="inherit" onClick={handleLoginClick}>

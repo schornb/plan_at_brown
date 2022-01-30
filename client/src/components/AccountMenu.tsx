@@ -4,6 +4,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Box, Avatar } from "@mui/material";
 import IUser from "../types/IUser";
+import { handleLogoutClick } from "../utils/auth";
 
 interface HeaderProps {
   user: IUser;
@@ -30,10 +31,11 @@ export default function AccountMenu({ user }: HeaderProps) {
         aria-haspopup="true"
         onClick={handleMenu}
         color="inherit"
-      ></IconButton>
-      <Box sx={{ display: "inline-flex" }}>
-        <Avatar src={user.picture} />
-      </Box>
+      >
+        <Box sx={{ display: "inline-flex" }}>
+          <Avatar src={user.picture} />
+        </Box>
+      </IconButton>
       <Menu
         id="menu-appbar"
         anchorEl={anchorEl}
@@ -49,8 +51,7 @@ export default function AccountMenu({ user }: HeaderProps) {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Hello World</MenuItem>
+        <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
       </Menu>
     </div>
   );

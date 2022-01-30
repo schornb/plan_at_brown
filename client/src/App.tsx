@@ -7,6 +7,8 @@ import ISemesterIdentifier from "./types/ISemesterIdentifier";
 import AddSemester from "./components/AddSemester";
 import { ICourseIdentifier } from "./types/ICourseIdentifier";
 import ICourse from "./types/ICourse";
+import DegreeRequirementSelection from "./components/DegreeRequirementSelection";
+import RequirementComponent from "./components/RequirementComponent"
 
 function App() {
   const [user, setUser] = React.useState<IUser | undefined>();
