@@ -5,12 +5,10 @@ import { handleLoginClick, handleLogoutClick } from "../utils/auth";
 
 interface HeaderProps {
   user: IUser | undefined;
-  //   loading: boolean;
 }
 
 export default function Header(props: HeaderProps) {
   const { user } = props;
-  console.log(user);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
