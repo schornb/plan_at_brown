@@ -1,1 +1,1 @@
-require("dist/app.js");
+require("dist/index.js");
