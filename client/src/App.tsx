@@ -15,11 +15,9 @@ import {
   MenuItem,
   Modal,
   Select,
-  TextField,
   Typography,
 } from "@mui/material";
 import IDegree from "./types/IDegree";
-import IDegreeIdentifier from "./types/IDegreeIdentifier";
 
 const style = {
   position: "absolute",
@@ -47,6 +45,23 @@ function App() {
   const handleOpen = () => setOpen(true);
 
   useEffect(() => {
+    async function getSemesters() {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/semesters`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": "true",
+          },
+        });
+        let resJson = await res.json();
+        handleSettingSemesters(resJson);
+      } catch (err) {
+        console.error(err);
+      }
+    }
     async function getUser() {
       try {
         const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth`, {
@@ -87,24 +102,6 @@ function App() {
 
       const resJson = await res.json();
       setDegrees(resJson);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  async function getSemesters() {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/semesters`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": "true",
-        },
-      });
-      let resJson = await res.json();
-      handleSettingSemesters(resJson);
     } catch (err) {
       console.error(err);
     }
@@ -240,7 +237,7 @@ function App() {
           <Button onClick={handleOpen}>Add Degree</Button>
         </>
       )}
-      {user && userDegrees && userDegrees.length == 0 && (
+      {user && userDegrees && userDegrees.length === 0 && (
         <Button onClick={handleOpen}>Select Degree</Button>
       )}
       <Modal

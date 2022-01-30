@@ -34,9 +34,6 @@ export default function AddCourse(props: AddCourseProps) {
   const handleUpdateSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) =>
     setSearchTerm(event.target.value);
 
-  // temp
-  const [courseId, setCourseId] = React.useState<string | undefined>("");
-
   const handleSubmitForm = (courseId: string | undefined) => {
     if (!courseId) {
       return;
