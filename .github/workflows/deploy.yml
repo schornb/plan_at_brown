@@ -24,7 +24,7 @@ jobs:
           npm ci
           npm run build
           rm -r src
-          mv -r dist src
+          cp -r dist src
           cd ..
 
       - name: "Authenticate to Google Cloud"

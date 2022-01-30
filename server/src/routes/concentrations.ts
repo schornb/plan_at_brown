@@ -2,7 +2,7 @@ import { Router } from "express";
 import { getCoursesFromUser } from "../services/users";
 import { Degree } from "../models/Degree";
 import { IUser, User } from "../models/User";
-import { assign_courses } from "../services/degreeRequirements";
+import { assign_best_guess_courses } from "../services/degreeRequirements";
 
 const router = Router();
 
@@ -84,7 +84,7 @@ router.post("/assign", async (req, res) => {
   if (!degree) {
     res.status(404).send("Degree not found");
   }
-  const degreeSatisfactions = assign_courses(courses, degree.requirements);
+  const degreeSatisfactions = assign_best_guess_courses(courses, degree.requirements);
 
   res.send(degreeSatisfactions);
 });
