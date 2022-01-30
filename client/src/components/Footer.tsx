@@ -10,7 +10,8 @@ export default function Header() {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            <Button variant="contained" onClick={handleResults}></Button>
+            <Button variant="contained">Pick Degree</Button>
+            <Button variant="contained">Get Requirements</Button>
           </Toolbar>
         </AppBar>
       </Box>
