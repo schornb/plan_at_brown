@@ -23,6 +23,8 @@ jobs:
           echo ${{ secrets.ENV_FILE }} > .env
           npm ci
           npm run build
+          rm -r src
+          mv -r dist src
           cd ..
 
       - name: "Authenticate to Google Cloud"
@@ -33,14 +35,13 @@ jobs:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
       - name: "Deploy to App Engine"
-        id: "deploy"
-        uses: google-github-actions/deploy-appengine@v0
-        with:
-          version: v1
-          working_directory: "${{ github.workspace }}/server"
+        run: |
+          cd server
+          npm run deploy
+          cd ..
 
       - name: "Test Backend"
-        run: curl "${{ steps.deploy.outputs.url }}"
+        run: curl "https://plan-at-brown-app.uc.r.appspot.com"
 
       - name: "Build Frontend"
         run: |
@@ -49,7 +50,7 @@ jobs:
           npm run build
           cd ..
         env:
-          REACT_APP_API_BASE_URL: ${{ steps.deploy.outputs.url }}
+          REACT_APP_API_BASE_URL: "https://plan-at-brown-app.uc.r.appspot.com"
 
       - name: "Deploy Frontend"
         uses: FirebaseExtended/action-hosting-deploy@v0

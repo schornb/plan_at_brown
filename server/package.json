@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "nodemon src/index.ts",
-    "build": "tsc"
+    "dev": "nodemon src/index.ts",
+    "start": "node src/index.js",
+    "build": "tsc",
+    "deploy": "gcloud app deploy"
   },
   "author": "plan@brown team",
   "license": "AGPL-3.0-or-later",
