@@ -7,10 +7,43 @@ import ISemesterIdentifier from "./types/ISemesterIdentifier";
 import AddSemester from "./components/AddSemester";
 import { ICourseIdentifier } from "./types/ICourseIdentifier";
 import ICourse from "./types/ICourse";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import IDegree from "./types/IDegree";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 function App() {
   const [user, setUser] = React.useState<IUser | undefined>();
   const [semesters, setSemesters] = React.useState<ISemester[]>([]);
+  const [userDegrees, setUserDegrees] = React.useState<IDegree[]>();
+  const [selectedDegree, setSelectedDegree] = React.useState<IDegree | undefined>();
+
+  const [degrees, setDegrees] = React.useState<IDegree[]>([]);
+
+  // modal logic
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
 
   useEffect(() => {
     async function getUser() {
@@ -27,7 +60,10 @@ function App() {
         if (res.status === 200) {
           const resJson = await res.json();
           setUser(resJson.user);
+          console.log(resJson.user);
+          setUserDegrees(resJson.user.degrees);
           getSemesters();
+          getAllDegrees();
         } else {
           console.error("User auth failed");
         }
@@ -37,6 +73,24 @@ function App() {
     }
     getUser();
   }, []);
+
+  async function getAllDegrees() {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/concentrations/all`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": "true",
+        },
+      });
+
+      const resJson = await res.json();
+      setDegrees(resJson);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   async function getSemesters() {
     try {
@@ -135,9 +189,79 @@ function App() {
     }
   }
 
+  async function handleSubmitDegree() {
+    handleClose();
+    // console.log(selectedDegree);
+    if (selectedDegree) {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/concentrations`, {
+        method: "PUT",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(selectedDegree),
+      });
+      console.log(res);
+      if (res.status === 200) {
+        const resJson = await res.json();
+        console.log(resJson);
+        setUserDegrees(resJson);
+      }
+    }
+  }
+
   return (
     <div className="App">
       <Header user={user} />
+      {user && userDegrees && userDegrees?.length > 0 && (
+        <>
+          {userDegrees.map((degree) => (
+            <Typography>
+              {degree.name} {degree.department}
+            </Typography>
+          ))}
+          <Button>Change Degree</Button>
+        </>
+      )}
+      {user && userDegrees && userDegrees.length == 0 && (
+        <Button onClick={handleOpen}>Select Degree</Button>
+      )}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <FormControl fullWidth>
+            <Box mb={2} sx={{ display: "flex" }}>
+              <InputLabel id="demo-simple-select-label">Degree</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedDegree?.name}
+                placeholder="Select a season"
+                label="Degree"
+                // onChange={handleChange}
+              >
+                {degrees &&
+                  degrees.map((degree) => (
+                    <MenuItem
+                      key={degree._id}
+                      value={degree.name}
+                      onClick={() => setSelectedDegree(degree)}
+                    >
+                      {degree.name} {degree.department}
+                    </MenuItem>
+                  ))}
+              </Select>
+              <Button onClick={handleSubmitDegree}>Save Degree</Button>
+            </Box>
+          </FormControl>
+        </Box>
+      </Modal>
+
       {semesters &&
         semesters.map((semester) => (
           <Semester

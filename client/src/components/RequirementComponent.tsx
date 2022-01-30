@@ -18,37 +18,62 @@ export interface Requirement {
 }
 
 interface IRequirementProps {
-    requirement: Requirement;
+  requirement: Requirement;
 }
 
 export default function RequirementComponent(props: IRequirementProps) {
-
-  const { type, requirements, name, assignedCourse, satisfied, customRequirementName, customRequirementParameter, courseCode, satisfyingCourses, exclusive } = props.requirement;
+  const {
+    type,
+    requirements,
+    name,
+    assignedCourse,
+    satisfied,
+    customRequirementName,
+    customRequirementParameter,
+    courseCode,
+    satisfyingCourses,
+    exclusive,
+  } = props.requirement;
 
   const display = () => {
     switch (type.toLowerCase()) {
       case "all":
-        return <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom> {name} (All)</Typography>
-          {requirements!.map(requirement => <RequirementComponent requirement={requirement} />)}
-        </Box>
+        return (
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
+              {" "}
+              {name} (All)
+            </Typography>
+            {requirements!.map((requirement) => (
+              <RequirementComponent requirement={requirement} />
+            ))}
+          </Box>
+        );
       case "any":
-        return <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom> {name} (Any) </Typography>
-          {requirements!.map(requirement => <RequirementComponent requirement={requirement} />)}
-        </Box>
-        case "course":
-            return <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom> {name} (Course) </Typography>
-            </Box>
-        default:
-            return <div>Error!</div>
-        }
+        return (
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
+              {" "}
+              {name} (Any){" "}
+            </Typography>
+            {requirements!.map((requirement) => (
+              <RequirementComponent requirement={requirement} />
+            ))}
+          </Box>
+        );
+      case "course":
+        return (
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
+              {" "}
+              {name} (Course){" "}
+            </Typography>
+          </Box>
+        );
+      default:
+        return <div>Error!</div>;
     }
+  };
 
-  return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
-      {display()}
-    </Box>
-  );
+  return <Box sx={{ display: "flex", flexDirection: "column" }}>{display()}</Box>;
 }
