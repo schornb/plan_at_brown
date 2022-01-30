@@ -11,6 +11,13 @@ const UserSchema = new mongoose.Schema({
             },
         }],
         completed: Boolean
+    }],
+    degrees: [{
+        degree: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Degrees'
+        },
+        satisfications: Object // JSON Object with value of Requirement
     }]
 });
 
