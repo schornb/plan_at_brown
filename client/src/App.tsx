@@ -19,6 +19,7 @@ import {
   Typography,
 } from "@mui/material";
 import IDegree from "./types/IDegree";
+import IDegreeIdentifier from "./types/IDegreeIdentifier";
 
 const style = {
   position: "absolute",
@@ -60,7 +61,6 @@ function App() {
         if (res.status === 200) {
           const resJson = await res.json();
           setUser(resJson.user);
-          console.log(resJson.user);
           setUserDegrees(resJson.user.degrees);
           getSemesters();
           getAllDegrees();
@@ -191,7 +191,6 @@ function App() {
 
   async function handleSubmitDegree() {
     handleClose();
-    // console.log(selectedDegree);
     if (selectedDegree) {
       const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/concentrations`, {
         method: "PUT",
@@ -200,14 +199,28 @@ function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(selectedDegree),
+        body: JSON.stringify({ degreeId: selectedDegree._id }),
       });
-      console.log(res);
       if (res.status === 200) {
         const resJson = await res.json();
-        console.log(resJson);
         setUserDegrees(resJson);
       }
+    }
+  }
+
+  async function handleDeleteDegree(degree: IDegree) {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/concentrations`, {
+      method: "DELETE",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ degreeId: degree.degree._id }),
+    });
+    if (res.status === 200) {
+      const resJson = await res.json();
+      setUserDegrees(resJson);
     }
   }
 
@@ -217,11 +230,14 @@ function App() {
       {user && userDegrees && userDegrees?.length > 0 && (
         <>
           {userDegrees.map((degree) => (
-            <Typography>
-              {degree.name} {degree.department}
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography>
+                {degree.degree.name} {degree.degree.department}
+              </Typography>
+              <Button onClick={() => handleDeleteDegree(degree)}>Delete</Button>
+            </Box>
           ))}
-          <Button>Change Degree</Button>
+          <Button onClick={handleOpen}>Add Degree</Button>
         </>
       )}
       {user && userDegrees && userDegrees.length == 0 && (

@@ -1,4 +1,5 @@
 export default interface IDegree {
+  degree: any;
   _id: string;
   name: string;
   requirements: Requirement;

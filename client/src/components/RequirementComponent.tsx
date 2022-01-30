@@ -22,18 +22,7 @@ interface IRequirementProps {
 }
 
 export default function RequirementComponent(props: IRequirementProps) {
-  const {
-    type,
-    requirements,
-    name,
-    assignedCourse,
-    satisfied,
-    customRequirementName,
-    customRequirementParameter,
-    courseCode,
-    satisfyingCourses,
-    exclusive,
-  } = props.requirement;
+  const { type, requirements, name } = props.requirement;
 
   const display = () => {
     switch (type.toLowerCase()) {

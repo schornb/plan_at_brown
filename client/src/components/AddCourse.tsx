@@ -95,8 +95,8 @@ export default function AddCourse(props: AddCourseProps) {
               {searchedCourses.map((course) => (
                 <Button
                   key={course._id + "-search"}
-                  onClick={() => {
-                    setCourseId(course._id);
+                  onClick={async () => {
+                    await setCourseId(course._id);
                     handleSubmitForm();
                     handleClose();
                   }}
