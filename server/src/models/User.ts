@@ -38,6 +38,8 @@ const UserSchema = new mongoose.Schema({
         },
       ],
       completed: Boolean,
+      number: Number,
+      season: String,
     },
   ],
   degrees: [
@@ -54,6 +56,8 @@ const UserSchema = new mongoose.Schema({
 export interface ISemester {
   courses: ICourse[];
   completed: boolean;
+  number: number;
+  season: string;
 }
 
 export interface IUser {

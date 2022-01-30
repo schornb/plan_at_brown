@@ -25,6 +25,7 @@ const CourseSchema = new Mongoose.Schema({
     type: String,
     required: true,
   },
+  semesters: [String],
 });
 
 export interface ICourse {
@@ -34,6 +35,7 @@ export interface ICourse {
   prerequisites: string[];
   corequisites: string[];
   department: string;
+  semesters: string[];
 }
 
 export const Course = Mongoose.model("Courses", CourseSchema);
