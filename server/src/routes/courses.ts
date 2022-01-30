@@ -20,6 +20,14 @@ router.get("/", (req, res) => {
 });
 
 /* 
+  Gets all of the courses, not by semester
+*/
+router.get("/all", async (_req, res) => {
+  const courses = await Course.find();
+  res.send(courses);
+});
+
+/* 
   Adds a course to a given semester
 */
 router.put("/", async (req, res) => {

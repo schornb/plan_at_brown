@@ -3,6 +3,8 @@ import { IUser, User, ISemester } from "../models/User";
 
 const router = Router();
 
+const SEASONS = ["fall", "winter", "spring", "summer"];
+
 interface ISemesterIdentifier {
   number: number;
   season: string;
@@ -23,7 +25,7 @@ router.put("/", async (req, res) => {
   const user = req.user as IUser;
   const semester = req.body as ISemesterIdentifier;
 
-  if (!(semester.season.toLowerCase() in ["fall", "spring", "summer", "winter"])) {
+  if (!SEASONS.includes(semester.season.toLowerCase())) {
     res.status(400).send("Invalid season");
     return;
   }
