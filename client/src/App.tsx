@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import ClassCard from "./components/ClassCard";
+import AddNewClassCard from "./components/AddNewClass";
 import "./App.css";
 import Header from "./components/Header";
 import IUser from "./types/IUser";
@@ -50,7 +51,8 @@ function App() {
   return (
     <div className="App">
       <Header user={user} />
-      {semesters.map((courseList) => courseList.map((course) => <ClassCard course={course} />))}
+      {/* {semesters.map((courseList) => courseList.map((course) => <ClassCard course={course} />))} */}
+      <AddNewClassCard></AddNewClassCard>
     </div>
   );
 }
