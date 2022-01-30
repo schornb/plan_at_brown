@@ -23,17 +23,24 @@ const style = {
 
 export default function AddCourse(props: AddCourseProps) {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [searchedCourses, setSearchedCourses] = React.useState<ICourse[]>([]);
+  const handleOpen = () => {
+    setOpen(true);
+    setSearchTerm("");
+    setSearchedCourses([]);
+  };
   const handleUpdateSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) =>
     setSearchTerm(event.target.value);
 
   // temp
-  const [courseId, setCourseId] = React.useState("");
+  const [courseId, setCourseId] = React.useState<string | undefined>("");
 
   const handleSubmitForm = () => {
+    if (!courseId) {
+      return;
+    }
     props.handleAddCourse(props.semester, {
       courseId: courseId,
       semesterId: props.semester._id,
@@ -43,23 +50,33 @@ export default function AddCourse(props: AddCourseProps) {
   };
 
   React.useEffect(() => {
-    async function getCourses() {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/courses/all`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const courses = await response.json();
-      setCourseId(courses[0]._id);
-    }
-    getCourses();
+    // async function getCourses() {
+    //   const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/courses/all`, {
+    //     method: "GET",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //     },
+    //   });
+    //   const courses = await response.json();
+    //   setCourseId(courses[0]._id);
+    // }
+    // getCourses();
   }, []);
 
   const handleSearchSubmit = async () => {
     // get the update search results
-    // const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/courses/search`, {)
+    const res = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/courses/search?q=${searchTerm}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const courses = await res.json();
+    setSearchedCourses(courses);
   };
 
   return (
@@ -81,8 +98,28 @@ export default function AddCourse(props: AddCourseProps) {
               onChange={handleUpdateSearchTerm}
             />
             <Button onClick={handleSearchSubmit}>Search</Button>
-
-            <Button onClick={handleSubmitForm}>Add</Button>
+            <Box
+              mb={2}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                overflowY: "scroll",
+              }}
+              height={200}
+            >
+              {searchedCourses.map((course) => (
+                <Button
+                  key={course._id + "-search"}
+                  onClick={() => {
+                    setCourseId(course._id);
+                    handleSubmitForm();
+                    handleClose();
+                  }}
+                >
+                  {course.name}
+                </Button>
+              ))}
+            </Box>
           </FormControl>
         </Box>
       </Modal>
