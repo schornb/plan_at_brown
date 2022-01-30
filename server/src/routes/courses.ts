@@ -2,18 +2,19 @@ import { Router } from "express";
 import { IUser, User } from "../models/User";
 import { Course, ICourse } from "../models/Course";
 import { getCoursesFromUser } from "../services/users";
+import { requireAuth } from "../middleware/auth";
 
 const router = Router();
 
 interface ICourseIdentifier {
   courseId: string;
-  semesterNumber: number;
+  semesterId: string;
 }
 
 /* 
   Gets all of the courses, not by semester
 */
-router.get("/", (req, res) => {
+router.get("/", requireAuth, (req, res) => {
   const user = req.user as IUser;
   const courses: ICourse[] = getCoursesFromUser(user);
   res.send(courses);
@@ -34,11 +35,11 @@ router.put("/", async (req, res) => {
   const user = req.user as IUser;
   const courseIdentifier = req.body as ICourseIdentifier;
   const courseId = courseIdentifier.courseId;
-  const semesterNumber = courseIdentifier.semesterNumber;
+  const semesterNumber = courseIdentifier.semesterId;
   const course = await Course.findById(courseId);
 
   user.semesters.forEach((semester) => {
-    if (semester.number === semesterNumber) {
+    if (semester._id === semesterNumber) {
       semester.courses.push(course);
     }
   });

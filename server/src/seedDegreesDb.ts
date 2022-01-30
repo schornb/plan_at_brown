@@ -1,5 +1,5 @@
 // Danger! Don't seed the database with the same data twice. :)
-//process.exit(0);
+process.exit(0);
 
 import dotenv from "dotenv";
 
@@ -28,7 +28,15 @@ const degreesToSave = degrees.map((degree) => {
 
 console.log(degreesToSave);
 
-// Save courses to database
+// Remove all degrees from the database
+Degree.deleteMany({}, (err) => {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+});
+
+// Save degrees to database
 Degree.insertMany(degreesToSave)
   .then(() => {
     console.log("Courses successfully saved to database!");

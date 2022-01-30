@@ -54,6 +54,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 export interface ISemester {
+  _id?: string;
   courses: ICourse[];
   completed: boolean;
   number: number;

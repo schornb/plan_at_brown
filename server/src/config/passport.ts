@@ -10,7 +10,7 @@ passport.serializeUser((user, done) => {
 // Convert the id back to a user database model
 passport.deserializeUser(async (id: string, done) => {
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("semesters.courses");
     done(null, user);
   } catch (err) {
     done(err);
