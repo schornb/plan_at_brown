@@ -3,6 +3,7 @@ import { IUser, User } from "../models/User";
 import { Course, ICourse } from "../models/Course";
 import { getCoursesFromUser } from "../services/users";
 import { requireAuth } from "../middleware/auth";
+import { query } from "express-validator";
 
 const router = Router();
 
@@ -45,6 +46,23 @@ router.put("/", async (req, res) => {
 
   await User.findByIdAndUpdate(user._id, user);
   res.send(user.semesters);
+});
+
+/*
+  Searches for a course by name
+*/
+router.get("/search", query("q").isString(), async (req, res) => {
+  if (!req.query) {
+    res.status(400).send("No query provided");
+    return;
+  }
+
+  const courses = await Course.find({
+    name: { $regex: req.query.q, $options: "i" },
+  })
+    .limit(10)
+    .exec();
+  res.send(courses);
 });
 
 export default router;
