@@ -1,8 +1,4 @@
-import { Box, AppBar, Toolbar, IconButton, Typography, Button, Avatar } from "@mui/material";
-import React from "react";
-import IUser from "../types/IUser";
-import { handleLoginClick, handleLogoutClick } from "../utils/auth";
-import AccountMenu from "./AccountMenu";
+import { Box, AppBar, Toolbar, Button } from "@mui/material";
 
 export default function Header() {
   return (

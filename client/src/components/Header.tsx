@@ -1,6 +1,6 @@
-import { Box, AppBar, Toolbar, Typography, Button, Avatar } from "@mui/material";
+import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
 import IUser from "../types/IUser";
-import { handleLoginClick, handleLogoutClick } from "../utils/auth";
+import { handleLoginClick } from "../utils/auth";
 import AccountMenu from "./AccountMenu";
 
 interface HeaderProps {

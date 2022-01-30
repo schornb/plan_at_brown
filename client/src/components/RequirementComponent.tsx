@@ -1,7 +1,4 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import IRequirement from "../types/IRequirement";
 
@@ -39,7 +36,7 @@ export default function RequirementComponent(props: IRequirementProps) {
               {requirements!.map((requirement) => (
                 <RequirementComponent requirement={requirement} />
               ))}
-            </div>  
+            </div>
           </Box>
         );
       case "course":
@@ -47,7 +44,7 @@ export default function RequirementComponent(props: IRequirementProps) {
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
               {" "}
-              {courseCode} (Course){" "} {assignedCourse && "Assigned: " + assignedCourse}
+              {courseCode} (Course) {assignedCourse && "Assigned: " + assignedCourse}
             </Typography>
           </Box>
         );
