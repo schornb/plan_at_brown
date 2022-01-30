@@ -14,7 +14,7 @@ export default function Header(props: HeaderProps) {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Plan At Brown
+            Plan@Brown
           </Typography>
           {user ? (
             <Box sx={{ display: "inline-flex" }}>
