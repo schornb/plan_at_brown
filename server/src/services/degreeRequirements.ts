@@ -1,5 +1,5 @@
-import { Requirement } from "src/models/Degree";
-import { ICourse } from "src/models/Course";
+import { Requirement } from "../models/Degree";
+import { ICourse } from "../models/Course";
 
 const course_codes_equal = (code1: string, code2: string) => {
   return code1 === code2;
@@ -61,6 +61,21 @@ export const is_satisfied = (requirement: Requirement): boolean => {
       return false; //TODO
     case "course":
       return requirement.assignedCourse !== undefined;
+    default:
+      throw new Error("Unknown requirement type: " + requirement.type);
+  }
+};
+
+export const getNumberAssigned = (requirement: Requirement): number => {
+  switch (requirement.type.toLowerCase()) {
+    case "all":
+      return requirement.requirements!.reduce((acc, req) => acc + getNumberAssigned(req), 0);
+    case "any":
+      return requirement.requirements!.reduce((acc, req) => acc + getNumberAssigned(req), 0);
+    case "custom":
+      return 0; //TODO
+    case "course":
+      return requirement.assignedCourse ? 1 : 0;
     default:
       throw new Error("Unknown requirement type: " + requirement.type);
   }
