@@ -1,9 +1,7 @@
-import { Box, Button, Card } from "@mui/material";
-import React, { useEffect } from "react";
+import { Box, Button } from "@mui/material";
 import ICourse from "../types/ICourse";
 import { ICourseIdentifier } from "../types/ICourseIdentifier";
 import { ISemester } from "../types/ISemester";
-import IUser from "../types/IUser";
 import AddCourse from "./AddCourse";
 import ClassCard from "./ClassCard";
 

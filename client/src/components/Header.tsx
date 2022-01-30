@@ -1,5 +1,4 @@
-import { Box, AppBar, Toolbar, IconButton, Typography, Button, Avatar } from "@mui/material";
-import React from "react";
+import { Box, AppBar, Toolbar, Typography, Button, Avatar } from "@mui/material";
 import IUser from "../types/IUser";
 import { handleLoginClick, handleLogoutClick } from "../utils/auth";
 import AccountMenu from "./AccountMenu";
