@@ -3,26 +3,14 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-
-export interface Requirement {
-  type: string;
-  requirements?: Requirement[];
-  name?: string;
-  assignedCourse?: string;
-  satisfied?: boolean;
-  customRequirementName?: string;
-  customRequirementParameter?: string;
-  courseCode?: string;
-  exclusive?: boolean;
-  satisfyingCourses?: string[];
-}
+import IRequirement from "../types/IRequirement";
 
 interface IRequirementProps {
-  requirement: Requirement;
+  requirement: IRequirement;
 }
 
 export default function RequirementComponent(props: IRequirementProps) {
-  const { type, requirements, name } = props.requirement;
+  const { type, requirements, name, courseCode, assignedCourse } = props.requirement;
 
   const display = () => {
     switch (type.toLowerCase()) {
@@ -33,9 +21,11 @@ export default function RequirementComponent(props: IRequirementProps) {
               {" "}
               {name} (All)
             </Typography>
-            {requirements!.map((requirement) => (
-              <RequirementComponent requirement={requirement} />
-            ))}
+            <div style={{ padding: 5, paddingLeft: 15 }}>
+              {requirements!.map((requirement) => (
+                <RequirementComponent requirement={requirement} />
+              ))}
+            </div>
           </Box>
         );
       case "any":
@@ -45,9 +35,11 @@ export default function RequirementComponent(props: IRequirementProps) {
               {" "}
               {name} (Any){" "}
             </Typography>
-            {requirements!.map((requirement) => (
-              <RequirementComponent requirement={requirement} />
-            ))}
+            <div style={{ padding: 5, paddingLeft: 15 }}>
+              {requirements!.map((requirement) => (
+                <RequirementComponent requirement={requirement} />
+              ))}
+            </div>  
           </Box>
         );
       case "course":
@@ -55,7 +47,7 @@ export default function RequirementComponent(props: IRequirementProps) {
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
               {" "}
-              {name} (Course){" "}
+              {courseCode} (Course){" "} {assignedCourse && "Assigned: " + assignedCourse}
             </Typography>
           </Box>
         );
