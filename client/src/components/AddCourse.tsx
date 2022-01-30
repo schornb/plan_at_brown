@@ -1,5 +1,6 @@
-import { Button, Modal, Box, FormControl } from "@mui/material";
+import { Button, Modal, Box, FormControl, TextField } from "@mui/material";
 import * as React from "react";
+import ICourse from "../types/ICourse";
 import { ICourseIdentifier } from "../types/ICourseIdentifier";
 import { ISemester } from "../types/ISemester";
 
@@ -22,13 +23,24 @@ const style = {
 
 export default function AddCourse(props: AddCourseProps) {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchedCourses, setSearchedCourses] = React.useState<ICourse[]>([]);
+  const handleOpen = () => {
+    setOpen(true);
+    setSearchTerm("");
+    setSearchedCourses([]);
+  };
+  const handleUpdateSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setSearchTerm(event.target.value);
 
   // temp
-  const [courseId, setCourseId] = React.useState("");
+  const [courseId, setCourseId] = React.useState<string | undefined>("");
 
   const handleSubmitForm = () => {
+    if (!courseId) {
+      return;
+    }
     props.handleAddCourse(props.semester, {
       courseId: courseId,
       semesterId: props.semester._id,
@@ -37,20 +49,20 @@ export default function AddCourse(props: AddCourseProps) {
     setOpen(false);
   };
 
-  React.useEffect(() => {
-    async function getCourses() {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/courses/all`, {
+  const handleSearchSubmit = async () => {
+    // get the update search results
+    const res = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/courses/search?q=${searchTerm}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      });
-      const courses = await response.json();
-      setCourseId(courses[0]._id);
-    }
-    getCourses();
-  }, []);
+      }
+    );
+    const courses = await res.json();
+    setSearchedCourses(courses);
+  };
 
   return (
     <div>
@@ -64,7 +76,35 @@ export default function AddCourse(props: AddCourseProps) {
         <Box sx={style}>
           <FormControl fullWidth>
             <Box mb={2} sx={{ display: "flex" }}></Box>
-            <Button onClick={handleSubmitForm}>Add</Button>
+            <TextField
+              id="outlined-search"
+              label="Search field"
+              type="search"
+              onChange={handleUpdateSearchTerm}
+            />
+            <Button onClick={handleSearchSubmit}>Search</Button>
+            <Box
+              mb={2}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                overflowY: "scroll",
+              }}
+              height={200}
+            >
+              {searchedCourses.map((course) => (
+                <Button
+                  key={course._id + "-search"}
+                  onClick={() => {
+                    setCourseId(course._id);
+                    handleSubmitForm();
+                    handleClose();
+                  }}
+                >
+                  {course.name}
+                </Button>
+              ))}
+            </Box>
           </FormControl>
         </Box>
       </Modal>

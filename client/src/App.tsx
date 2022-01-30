@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
-import ClassCard from "./components/ClassCard";
-import "./App.css";
 import Header from "./components/Header";
 import IUser from "./types/IUser";
 import Semester from "./components/Semester";
 import { ISemester } from "./types/ISemester";
-import { Button } from "@mui/material";
 import ISemesterIdentifier from "./types/ISemesterIdentifier";
 import AddSemester from "./components/AddSemester";
 import { ICourseIdentifier } from "./types/ICourseIdentifier";
+import ICourse from "./types/ICourse";
 
 function App() {
   const [user, setUser] = React.useState<IUser | undefined>();
@@ -29,7 +27,6 @@ function App() {
         if (res.status === 200) {
           const resJson = await res.json();
           setUser(resJson.user);
-          console.log(resJson.user);
           getSemesters();
         } else {
           console.error("User auth failed");
@@ -107,7 +104,6 @@ function App() {
   }
 
   async function handleAddCourse(semester: ISemester, course: ICourseIdentifier) {
-    console.log(course);
     const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/courses`, {
       method: "PUT",
       mode: "cors",
@@ -119,7 +115,22 @@ function App() {
     });
     if (res.status === 200) {
       const resJson = await res.json();
-      console.log(resJson);
+      handleSettingSemesters(resJson);
+    }
+  }
+
+  async function handleDeleteCourse(semester: ISemester, course: ICourse) {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/courses`, {
+      method: "DELETE",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ semesterId: semester._id, courseId: course._id }),
+    });
+    if (res.status === 200) {
+      const resJson = await res.json();
       handleSettingSemesters(resJson);
     }
   }
@@ -134,10 +145,10 @@ function App() {
             semester={semester}
             handleDeleteSemester={handleDeleteSemester}
             handleAddCourse={handleAddCourse}
+            handleDeleteCourse={handleDeleteCourse}
           />
         ))}
       <AddSemester handleAddSemester={handleAddSemester} />
-      <ClassCard></ClassCard>
     </div>
   );
 }

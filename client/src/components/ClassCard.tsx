@@ -3,35 +3,32 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import ICourse from "../types/ICourse";
+import { Button } from "@mui/material";
+import { ICourseIdentifier } from "../types/ICourseIdentifier";
+import { ISemester } from "../types/ISemester";
 
-// interface ButtonProps {
-//   color: string;
-//   text: string;
-// }
+interface ClassCardProps {
+  semester: ISemester;
+  course: ICourse;
+  handleDeleteCourse: (semester: ISemester, course: ICourse) => Promise<void>;
+}
 
-// const Button = (props: ButtonProps) => {
-//   return (
-//     <button style={{ backgroundColor: props.color }} className="btn">
-//       {props.text}
-//     </button>
-//   );
-// };
-
-// export default Button;
-
-export default function ClassCard() {
+export default function ClassCard(props: ClassCardProps) {
+  let { course } = props;
   return (
     <Card sx={{ background: "linear-gradient(#26c3eb, #6dd5ed)", m: 2 }}>
       <CardContent>
         <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
-          Computer Science
+          {course.department}
         </Typography>
         <Typography color="#292e30" variant="h5" component="div">
-          CSCI0190
+          {course.code}
         </Typography>
         <Typography color="#292e30" variant="body2">
-          Accelerated Introduction to Computer Science
+          {course.name}
         </Typography>
+        <Button onClick={() => props.handleDeleteCourse(props.semester, course)}>Delete</Button>
       </CardContent>
     </Card>
   );
