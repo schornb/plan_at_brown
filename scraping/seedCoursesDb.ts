@@ -15,7 +15,7 @@ if (!process.env.MONGO_URI) {
 import "./config/mongo";
 
 // Read courses from courses_complete.json
-import courses from "../../scraping/data/courses_complete.json";
+import courses from "./data/courses_complete.json";
 
 // Loop over courses and create new Course objects
 const coursesToSave = courses.map((course) => {
