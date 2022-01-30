@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import logo from "./logo.svg";
+import ClassCard from "./components/ClassCard";
 import "./App.css";
 import Header from "./components/Header";
 import IUser from "./types/IUser";
@@ -34,6 +34,7 @@ function App() {
   return (
     <div className="App">
       <Header user={user} />
+      <ClassCard></ClassCard>
     </div>
   );
 }
