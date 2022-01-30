@@ -42,6 +42,8 @@ const UserSchema = new mongoose.Schema({
         ref: "Degrees",
       },
       satisfactions: Object, // JSON Object with value of Requirement
+      degreeTotal: Number,
+      degreeProgress: Number,
     },
   ],
 });
