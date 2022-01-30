@@ -29,7 +29,7 @@ export default function Semester(props: SemesterProps) {
       <Box sx={{ display: "flex", flexDirection: "flex-start" }}>
         {semester.courses.map((course) => (
           <ClassCard
-            key={course.code}
+            key={course._id}
             semester={semester}
             course={course}
             handleDeleteCourse={props.handleDeleteCourse}

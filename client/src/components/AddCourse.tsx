@@ -1,5 +1,6 @@
-import { Button, Modal, Box, FormControl } from "@mui/material";
+import { Button, Modal, Box, FormControl, TextField } from "@mui/material";
 import * as React from "react";
+import ICourse from "../types/ICourse";
 import { ICourseIdentifier } from "../types/ICourseIdentifier";
 import { ISemester } from "../types/ISemester";
 
@@ -24,6 +25,10 @@ export default function AddCourse(props: AddCourseProps) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchedCourses, setSearchedCourses] = React.useState<ICourse[]>([]);
+  const handleUpdateSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setSearchTerm(event.target.value);
 
   // temp
   const [courseId, setCourseId] = React.useState("");
@@ -52,6 +57,11 @@ export default function AddCourse(props: AddCourseProps) {
     getCourses();
   }, []);
 
+  const handleSearchSubmit = async () => {
+    // get the update search results
+    // const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/courses/search`, {)
+  };
+
   return (
     <div>
       <Button onClick={handleOpen}>Add Course</Button>
@@ -64,6 +74,14 @@ export default function AddCourse(props: AddCourseProps) {
         <Box sx={style}>
           <FormControl fullWidth>
             <Box mb={2} sx={{ display: "flex" }}></Box>
+            <TextField
+              id="outlined-search"
+              label="Search field"
+              type="search"
+              onChange={handleUpdateSearchTerm}
+            />
+            <Button onClick={handleSearchSubmit}>Search</Button>
+
             <Button onClick={handleSubmitForm}>Add</Button>
           </FormControl>
         </Box>
