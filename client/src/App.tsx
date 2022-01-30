@@ -31,10 +31,26 @@ function App() {
     getUser();
   }, []);
 
+  function getListOfCoursesForEachSemester() {
+    if (!user) {
+      return [[]];
+    }
+    let arr = [];
+    for (const semester of user.semesters) {
+      let courseList = [];
+      for (const course of semester.courses) {
+        courseList.push(course);
+      }
+      arr.push(courseList);
+    }
+    return arr;
+  }
+  const semesters = getListOfCoursesForEachSemester();
+
   return (
     <div className="App">
       <Header user={user} />
-      <ClassCard></ClassCard>
+      {semesters.map((courseList) => courseList.map((course) => <ClassCard course={course} />))}
     </div>
   );
 }
