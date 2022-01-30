@@ -49,21 +49,6 @@ export default function AddCourse(props: AddCourseProps) {
     setOpen(false);
   };
 
-  React.useEffect(() => {
-    // async function getCourses() {
-    //   const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/courses/all`, {
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //     },
-    //   });
-    //   const courses = await response.json();
-    //   setCourseId(courses[0]._id);
-    // }
-    // getCourses();
-  }, []);
-
   const handleSearchSubmit = async () => {
     // get the update search results
     const res = await fetch(
