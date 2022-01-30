@@ -250,13 +250,13 @@ function App() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{ m: 1, minWidth: 120 }}>
             <Box mb={2} sx={{ display: "flex" }}>
               <InputLabel id="demo-simple-select-label">Degree</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={selectedDegree?.name}
+                value={selectedDegree?.name ? selectedDegree.name : "Degree"}
                 placeholder="Select a season"
                 label="Degree"
                 // onChange={handleChange}
