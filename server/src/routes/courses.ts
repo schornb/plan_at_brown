@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { IUser, User } from "../models/User";
-import { Course } from "../models/Course";
+import { Course, ICourse } from "../models/Course";
+import { getCoursesFromUser } from "../services/users";
 
 const router = Router();
 
@@ -10,11 +11,12 @@ interface ICourseIdentifier {
 }
 
 /* 
-  Gets all of the courses by semester, in the form ISemester[]
+  Gets all of the courses, not by semester
 */
 router.get("/", (req, res) => {
   const user = req.user as IUser;
-  res.json(user.semesters);
+  const courses: ICourse[] = getCoursesFromUser(user);
+  res.send(courses);
 });
 
 /* 

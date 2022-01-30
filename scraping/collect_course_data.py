@@ -66,15 +66,19 @@ def filter_results(results):
 
 def save_all_class_data():
     codes = get_course_codes()
+    all_results = []
     for code in codes:
         data = get_classes(code)
         results = data['results']
         fixed_results = filter_results(results)
+        all_results.extend(fixed_results)
 
         with open('scraping/data/courses/' + code + '.json', 'w') as f:
             json.dump(fixed_results, f, indent=4)
         print(code, ":", len(data['results']), "classes")
 
+    with open('scraping/data/courses/complete.json', 'w') as f:
+        json.dump(all_results, f, indent=4)
     print("Saved data for " + str(len(codes)) + " courses")
 
 
