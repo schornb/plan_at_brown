@@ -57,11 +57,13 @@ router.get("/search", query("q").isString(), async (req, res) => {
     return;
   }
 
+  // Search by name and code
   const courses = await Course.find({
-    name: { $regex: req.query.q, $options: "i" },
-  })
-    .limit(10)
-    .exec();
+    $or: [
+      { name: { $regex: req.query.q, $options: "i" } },
+      { code: { $regex: req.query.q, $options: "i" } },
+    ],
+  });
   res.send(courses);
 });
 
