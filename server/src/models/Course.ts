@@ -9,6 +9,10 @@ const CourseSchema = new Mongoose.Schema({
     type: String,
     required: true,
   },
+  crn: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: false,
@@ -31,9 +35,10 @@ const CourseSchema = new Mongoose.Schema({
 export interface ICourse {
   name: string;
   code: string;
-  description: string;
-  prerequisites: string[];
-  corequisites: string[];
+  crn: string;
+  description?: string;
+  prerequisites?: string[];
+  corequisites?: string[];
   department: string;
   semesters: string[];
 }
