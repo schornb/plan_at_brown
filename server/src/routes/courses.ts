@@ -47,4 +47,24 @@ router.put("/", async (req, res) => {
   res.send(user.semesters);
 });
 
+/**
+ * Removes a course from a given semester
+ */
+router.delete("/", async (req, res) => {
+  const user = req.user as IUser;
+  const courseIdentifier = req.body as ICourseIdentifier;
+  const courseId = courseIdentifier.courseId;
+  const semesterNumber = courseIdentifier.semesterId;
+
+  // filter out the course from the user's semesters
+  user.semesters.forEach((semester) => {
+    if (semester._id == semesterNumber) {
+      semester.courses = semester.courses.filter((course) => course._id != courseId);
+    }
+  });
+
+  await User.findByIdAndUpdate(user._id, user);
+  res.send(user.semesters);
+});
+
 export default router;

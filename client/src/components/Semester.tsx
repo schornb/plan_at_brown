@@ -1,5 +1,6 @@
 import { Box, Button, Card } from "@mui/material";
 import React, { useEffect } from "react";
+import ICourse from "../types/ICourse";
 import { ICourseIdentifier } from "../types/ICourseIdentifier";
 import { ISemester } from "../types/ISemester";
 import IUser from "../types/IUser";
@@ -10,6 +11,7 @@ interface SemesterProps {
   semester: ISemester;
   handleDeleteSemester: (number: number, season: string) => Promise<void>;
   handleAddCourse: (semester: ISemester, course: ICourseIdentifier) => Promise<void>;
+  handleDeleteCourse: (semester: ISemester, course: ICourse) => Promise<void>;
 }
 
 export default function Semester(props: SemesterProps) {
@@ -25,9 +27,14 @@ export default function Semester(props: SemesterProps) {
         </Button>
       </Box>
       <Box sx={{ display: "flex", flexDirection: "flex-start" }}>
-        <ClassCard />
-        <ClassCard />
-        <ClassCard />
+        {semester.courses.map((course) => (
+          <ClassCard
+            key={course.code}
+            semester={semester}
+            course={course}
+            handleDeleteCourse={props.handleDeleteCourse}
+          />
+        ))}
         <AddCourse semester={semester} handleAddCourse={props.handleAddCourse} />
       </Box>
     </Box>

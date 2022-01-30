@@ -33,6 +33,7 @@ export const CourseSchema = new Mongoose.Schema({
 });
 
 export interface ICourse {
+  _id?: string;
   name: string;
   code: string;
   crn: string;
