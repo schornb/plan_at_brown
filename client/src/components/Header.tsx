@@ -1,21 +1,37 @@
+import { Box, AppBar, Toolbar, IconButton, Typography, Button, Avatar } from "@mui/material";
 import React from "react";
-import Button from "./ClassCard";
+import IUser from "../types/IUser";
+import { handleLoginClick, handleLogoutClick } from "../utils/auth";
 
 interface HeaderProps {
-  title: string;
+  user: IUser | undefined;
+  //   loading: boolean;
 }
 
-const headerStyle = {
-  color: "red",
-  backgroundColor: "black",
-};
-
-const Header = (props: HeaderProps) => {
+export default function Header(props: HeaderProps) {
+  const { user } = props;
+  console.log(user);
   return (
-    <header className="header">
-      <h1 style={headerStyle}>{props.title}</h1>
-    </header>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Plan At Brown
+          </Typography>
+          {user ? (
+            <Box sx={{ display: "inline-flex" }}>
+              <Avatar src={user.picture} />
+              <Button onClick={handleLogoutClick} color="inherit">
+                Logout
+              </Button>
+            </Box>
+          ) : (
+            <Button color="inherit" onClick={handleLoginClick}>
+              Login
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
-};
-
-export default Header;
+}
