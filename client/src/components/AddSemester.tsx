@@ -46,6 +46,7 @@ export default function AddSemester(props: AddSemesterProps) {
 
   const handleSubmitForm = () => {
     props.handleAddSemester(date?.getFullYear(), season);
+    setOpen(false);
   };
 
   return (

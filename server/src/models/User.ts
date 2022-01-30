@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ICourse } from "./Course";
+import { CourseSchema, ICourse } from "./Course";
 import { IDegree, Requirement } from "./Degree";
 
 const UserSchema = new mongoose.Schema({
@@ -29,14 +29,7 @@ const UserSchema = new mongoose.Schema({
   },
   semesters: [
     {
-      courses: [
-        {
-          course: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Courses",
-          },
-        },
-      ],
+      courses: [CourseSchema],
       completed: Boolean,
       number: Number,
       season: String,

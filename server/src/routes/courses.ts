@@ -37,9 +37,9 @@ router.put("/", async (req, res) => {
   const courseId = courseIdentifier.courseId;
   const semesterNumber = courseIdentifier.semesterId;
   const course = await Course.findById(courseId);
-
+  console.log(req.body);
   user.semesters.forEach((semester) => {
-    if (semester._id === semesterNumber) {
+    if (semester._id == semesterNumber) {
       semester.courses.push(course);
     }
   });

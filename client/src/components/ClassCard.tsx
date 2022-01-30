@@ -21,7 +21,7 @@ import Typography from "@mui/material/Typography";
 
 export default function ClassCard() {
   return (
-    <Card sx={{ background: "linear-gradient(#26c3eb, #6dd5ed)" }}>
+    <Card sx={{ background: "linear-gradient(#26c3eb, #6dd5ed)", m: 2 }}>
       <CardContent>
         <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
           Computer Science

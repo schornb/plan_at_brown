@@ -8,10 +8,11 @@ import { ISemester } from "./types/ISemester";
 import { Button } from "@mui/material";
 import ISemesterIdentifier from "./types/ISemesterIdentifier";
 import AddSemester from "./components/AddSemester";
+import { ICourseIdentifier } from "./types/ICourseIdentifier";
 
 function App() {
   const [user, setUser] = React.useState<IUser | undefined>();
-  const [semesters, setSemester] = React.useState<ISemester[]>([]);
+  const [semesters, setSemesters] = React.useState<ISemester[]>([]);
 
   useEffect(() => {
     async function getUser() {
@@ -28,6 +29,7 @@ function App() {
         if (res.status === 200) {
           const resJson = await res.json();
           setUser(resJson.user);
+          console.log(resJson.user);
           getSemesters();
         } else {
           console.error("User auth failed");
@@ -51,40 +53,90 @@ function App() {
         },
       });
       let resJson = await res.json();
-      await setSemester(resJson.semesters);
-      console.log(resJson.semesters);
+      handleSettingSemesters(resJson);
     } catch (err) {
       console.error(err);
     }
   }
 
   async function handleAddSemester(number: number | undefined, season: string | undefined) {
-    if (number && season) {
-      const semester: ISemesterIdentifier = {
-        number,
-        season,
-      };
-      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/semesters`, {
-        method: "PUT",
-        mode: "cors",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(semester),
-      });
-      if (res.status === 200) {
-        getSemesters();
-      }
+    if (!number || !season) {
+      console.error("Invalid semester: missing number or season");
+      return;
+    }
+    const semester: ISemesterIdentifier = {
+      number,
+      season,
+    };
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/semesters`, {
+      method: "PUT",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(semester),
+    });
+    if (res.status === 200) {
+      const resJson = await res.json();
+      handleSettingSemesters(resJson);
+    }
+  }
+
+  async function handleDeleteSemester(number: number, season: string) {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/semesters`, {
+      method: "DELETE",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ number, season }),
+    });
+    if (res.status === 200) {
+      const resJson = (await res.json()) as ISemester[];
+      handleSettingSemesters(resJson);
+    }
+  }
+
+  async function handleSettingSemesters(semesters: ISemester[]) {
+    semesters.sort((a, b) => a.number - b.number);
+    // after sorting by number, sort by season
+
+    setSemesters(semesters);
+  }
+
+  async function handleAddCourse(semester: ISemester, course: ICourseIdentifier) {
+    console.log(course);
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/courses`, {
+      method: "PUT",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(course),
+    });
+    if (res.status === 200) {
+      const resJson = await res.json();
+      console.log(resJson);
+      handleSettingSemesters(resJson);
     }
   }
 
   return (
     <div className="App">
       <Header user={user} />
-      {user ? <Semester user={user} /> : null}
+      {semesters &&
+        semesters.map((semester) => (
+          <Semester
+            key={semester._id}
+            semester={semester}
+            handleDeleteSemester={handleDeleteSemester}
+            handleAddCourse={handleAddCourse}
+          />
+        ))}
       <AddSemester handleAddSemester={handleAddSemester} />
-      {/* <Button onClick={handleAddSemester}>Add Semester</Button> */}
       <ClassCard></ClassCard>
     </div>
   );
