@@ -1,39 +1,41 @@
 import Mongoose from "mongoose";
 
 const CourseSchema = new Mongoose.Schema({
-    name: {
-        type: String,
-        required: true   
-    },
-    code: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: false
-    },
-    prerequisites: {
-        type: [String],
-        required: false
-    },
-    corequisites: {
-        type: [String],
-        required: false
-    },
-    department: {
-        type: String,
-        required: true
-    }
+  name: {
+    type: String,
+    required: true,
+  },
+  code: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: false,
+  },
+  prerequisites: {
+    type: [String],
+    required: false,
+  },
+  corequisites: {
+    type: [String],
+    required: false,
+  },
+  department: {
+    type: String,
+    required: true,
+  },
+  semesters: [String],
 });
 
 export interface ICourse {
-    name: string;
-    code: string;
-    description: string;
-    prerequisites: string[];
-    corequisites: string[];
-    department: string;
+  name: string;
+  code: string;
+  description: string;
+  prerequisites: string[];
+  corequisites: string[];
+  department: string;
+  semesters: string[];
 }
 
-export const Course = Mongoose.model('Courses', CourseSchema);
+export const Course = Mongoose.model("Courses", CourseSchema);

@@ -9,6 +9,7 @@ import passport from "passport";
 import authRouter from "./routes/auth";
 import coursesRouter from "./routes/courses";
 import concentrationsRouter from "./routes/concentrations";
+import semestersRouter from "./routes/semesters";
 
 log4js.configure({
   appenders: {
@@ -66,6 +67,7 @@ app.use(passport.session());
 app.use("/auth", authRouter);
 app.use("/courses", coursesRouter);
 app.use("/concentrations", concentrationsRouter);
+app.use("/semesters", semestersRouter);
 
 app.get("/", (_req, res) => {
   res.send("Hello World!");
