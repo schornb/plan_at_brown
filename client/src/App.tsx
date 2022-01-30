@@ -9,6 +9,8 @@ import { ICourseIdentifier } from "./types/ICourseIdentifier";
 import ICourse from "./types/ICourse";
 import IRequirement from "./types/IRequirement";
 import RequirementComponent from "./components/RequirementComponent";
+import Footer from "./components/Footer";
+
 import {
   Box,
   Button,
@@ -314,6 +316,7 @@ function App() {
           />
         ))}
       <AddSemester handleAddSemester={handleAddSemester} />
+      <Footer />
     </div>
   );
 }
