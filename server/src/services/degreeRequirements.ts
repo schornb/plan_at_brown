@@ -2,8 +2,10 @@ import { Requirement } from "../models/Degree";
 import { ICourse } from "../models/Course";
 import customRequirementsDictionary from "./customRequirements";
 
+const stripString = (str: string) => str.replace(" ", "").toUpperCase();
+
 const course_codes_equal = (code1: string, code2: string) => {
-  return code1 === code2;
+  return stripString(code1) === stripString(code2);
 };
 
 export const reset_satisfied = (requirement: Requirement) => {
@@ -43,12 +45,12 @@ export const assign_course_options = (
 ): Requirement => {
   requirement.satisfyingCourses = courses
     .filter((course) => satisfied_by(requirement, course))
-    .map((c) => c.name);
+    .map((c) => c.code);
   return requirement;
 };
 
 /*
- *
+ * Assigns all of the possible satisfying courses to every edge course requirement
  */
 export const assign_courses = (courses: ICourse[], requirement: Requirement): Requirement => {
   // First, assign
@@ -61,6 +63,43 @@ export const assign_courses = (courses: ICourse[], requirement: Requirement): Re
       requirement = assign_course_options(requirement, courses);
   }
   return requirement;
+};
+
+export const assign_best_guess_courses = (
+  courses: ICourse[],
+  requirement: Requirement
+): Requirement => {
+  // First, assign all of the possible courses to every course
+  const requirementsWithOptions = assign_courses(courses, requirement);
+  // Create a set of courses
+  const coursesSet = new Set(courses.map((c) => c.code));
+  // Then, assign the best guess to every course, starting with courses with strictly 1 and then 2 satisfying requirements and are exclusive
+  const assign_first_if_limited = (
+    req: Requirement,
+    usedCourses: Set<ICourse>,
+    courses: ICourse[],
+    limit: number
+  ) => {
+    if (req.type == "course" || req.type == "custom") {
+      if (req.satisfyingCourses!.length <= limit) {
+        for (let i = 0; i < req.satisfyingCourses!.length; i++) {
+          if (coursesSet.has(req.satisfyingCourses![i])) {
+            req.assignedCourse = req.satisfyingCourses![i];
+            usedCourses.add(courses.find((c) => c.code === req.assignedCourse!)!);
+            break;
+          }
+        }
+      }
+    } else {
+      req.requirements!.forEach((req) => assign_first_if_limited(req, usedCourses, courses, limit));
+    }
+  };
+
+  assign_first_if_limited(requirementsWithOptions, new Set(), courses, 1);
+  assign_first_if_limited(requirementsWithOptions, new Set(), courses, 2);
+  assign_first_if_limited(requirementsWithOptions, new Set(), courses, 999);
+
+  return requirementsWithOptions;
 };
 
 export const is_satisfied = (requirement: Requirement): boolean => {
