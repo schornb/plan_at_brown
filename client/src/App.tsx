@@ -1,24 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import Header from "./components/Header";
+import IUser from "./types/IUser";
 
 function App() {
+  const [user, setUser] = React.useState<IUser | undefined>();
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": "true",
+          },
+        });
+        if (res.status === 200) {
+          const resJson = await res.json();
+          setUser(resJson.user);
+        } else {
+          console.error("User auth failed");
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    getUser();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header user={user} />
     </div>
   );
 }
