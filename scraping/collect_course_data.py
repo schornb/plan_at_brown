@@ -21,10 +21,17 @@ def get_course_codes():
     soup = BeautifulSoup(response.content, 'html.parser')
     dropdown = soup.find(id='crit-subject')
     codes = []
+
     for child in dropdown.children:
         if child.name == 'option' and child.attrs['value']:
-            codes.append(child['value'])
-    return codes
+            codes.append((child['value'], child.text))
+
+    # Save codes to a file
+    with open('scraping/data/course_codes.txt', 'w') as f:
+        for code in codes:
+            f.write(code[0] + ', ' + code[1] + '\n')
+
+    return list(map(lambda c: c[0], codes))
 
 
 def code_to_semester(result):

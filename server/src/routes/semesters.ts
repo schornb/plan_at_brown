@@ -25,6 +25,7 @@ router.put("/", async (req, res) => {
 
   if (!(semester.season.toLowerCase() in ["fall", "spring", "summer", "winter"])) {
     res.status(400).send("Invalid season");
+    return;
   }
 
   // Check if semester already exists
