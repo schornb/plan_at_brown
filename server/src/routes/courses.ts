@@ -45,7 +45,6 @@ router.put("/", async (req, res) => {
   });
 
   await User.findByIdAndUpdate(user._id, user);
-  console.log(user.semesters[0].courses);
   res.send(user.semesters);
 });
 

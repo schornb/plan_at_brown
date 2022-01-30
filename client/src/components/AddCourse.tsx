@@ -37,7 +37,7 @@ export default function AddCourse(props: AddCourseProps) {
   // temp
   const [courseId, setCourseId] = React.useState<string | undefined>("");
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = (courseId: string | undefined) => {
     if (!courseId) {
       return;
     }
@@ -96,8 +96,8 @@ export default function AddCourse(props: AddCourseProps) {
                 <Button
                   key={course._id + "-search"}
                   onClick={async () => {
-                    await setCourseId(course._id);
-                    handleSubmitForm();
+                    // await setCourseId(course._id);
+                    handleSubmitForm(course._id);
                     handleClose();
                   }}
                 >
