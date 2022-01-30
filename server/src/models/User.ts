@@ -1,35 +1,71 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import { ICourse } from "./Course";
+import { IDegree, Requirement } from "./Degree";
 
 const UserSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    semesters: [{
-        courses: [{
-            course: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Courses'
-            },
-        }],
-        completed: Boolean
-    }],
-    degrees: [{
-        degree: {
+  googleId: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  picture: {
+    type: String,
+    required: true,
+  },
+  givenName: {
+    type: String,
+    required: true,
+  },
+  familyName: {
+    type: String,
+    required: true,
+  },
+  semesters: [
+    {
+      courses: [
+        {
+          course: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Degrees'
+            ref: "Courses",
+          },
         },
-        satisfications: Object // JSON Object with value of Requirement
-    }]
+      ],
+      completed: Boolean,
+    },
+  ],
+  degrees: [
+    {
+      degree: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Degrees",
+      },
+      satisfactions: Object, // JSON Object with value of Requirement
+    },
+  ],
 });
 
-export interface Semester {
-    courses: mongoose.Types.ObjectId[];
-    completed: boolean;
+export interface ISemester {
+  courses: ICourse[];
+  completed: boolean;
 }
 
-export interface IUser extends Document {
-    name: string;
-    email: string;
-    semesters: Semester
+export interface IUser {
+  _id: string;
+  googleId: string;
+  name: string;
+  email: string;
+  picture: string;
+  givenName: string;
+  familyName: string;
+  semesters: ISemester[];
+  degrees: { degree: IDegree; satisfactions: Requirement }[];
 }
 
-export const User = mongoose.model('Users', UserSchema);
+export const User = mongoose.model<IUser>("Users", UserSchema);
