@@ -1,8 +1,32 @@
 import mongoose from "mongoose";
+import { ICourse } from "./Course";
+import { IDegree, Requirement } from "./Degree";
 
 const UserSchema = new mongoose.Schema({
-  name: String,
-  email: String,
+  googleId: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  picture: {
+    type: String,
+    required: true,
+  },
+  givenName: {
+    type: String,
+    required: true,
+  },
+  familyName: {
+    type: String,
+    required: true,
+  },
   semesters: [
     {
       courses: [
@@ -22,20 +46,26 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Degrees",
       },
-      satisfications: Object, // JSON Object with value of Requirement
+      satisfactions: Object, // JSON Object with value of Requirement
     },
   ],
 });
 
-export interface Semester {
-  courses: mongoose.Types.ObjectId[];
+export interface ISemester {
+  courses: ICourse[];
   completed: boolean;
 }
 
-export interface IUser extends Document {
+export interface IUser {
+  _id: string;
+  googleId: string;
   name: string;
   email: string;
-  semesters: Semester;
+  picture: string;
+  givenName: string;
+  familyName: string;
+  semesters: ISemester[];
+  degrees: { degree: IDegree; satisfactions: Requirement }[];
 }
 
-export const User = mongoose.model("Users", UserSchema);
+export const User = mongoose.model<IUser>("Users", UserSchema);

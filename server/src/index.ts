@@ -3,7 +3,12 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import log4js from "log4js";
-import { FirestoreStore } from "@google-cloud/connect-firestore";
+import MongoStore from "connect-mongo";
+import passport from "passport";
+
+import authRouter from "./routes/auth";
+import coursesRouter from "./routes/courses";
+import concentrationsRouter from "./routes/concentrations";
 
 log4js.configure({
   appenders: {
@@ -18,8 +23,13 @@ const logger = log4js.getLogger("index");
 
 dotenv.config();
 
-// Setup GCP Firestore
-import { db } from "./config/firestore";
+if (!process.env.MONGO_URI) {
+  logger.error("Environment variables are not properly setup!");
+  process.exit(1);
+}
+
+// Setup GCP MongoDB
+import "./config/mongo";
 
 // Setup Express
 const app = express();
@@ -38,15 +48,28 @@ app.use(
     secret: process.env.SESSION_SECRET || "",
     resave: false,
     saveUninitialized: true,
-    store: new FirestoreStore({
-      dataset: db,
-      kind: "express-sessions",
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI || "",
     }),
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+      maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
     },
   })
 );
+
+// Setup Passport
+import "./config/passport";
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Setup Routes
+app.use("/auth", authRouter);
+app.use("/courses", coursesRouter);
+app.use("/concentrations", concentrationsRouter);
+
+app.get("/", (_req, res) => {
+  res.send("Hello World!");
+});
 
 app.listen(process.env.PORT || 8080, () => {
   logger.info(`Server listening on port ${process.env.PORT || 8080}`);
