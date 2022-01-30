@@ -10,6 +10,7 @@ const DegreeSchema = new mongoose.Schema({
 });
 
 export interface IDegree {
+  _id?: string;
   name: string;
   requirements: Requirement;
   department: string;

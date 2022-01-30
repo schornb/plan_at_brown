@@ -1,5 +1,6 @@
 import { Requirement } from "../models/Degree";
 import { ICourse } from "../models/Course";
+import customRequirementsDictionary from "./customRequirements";
 
 const course_codes_equal = (code1: string, code2: string) => {
   return code1 === code2;
@@ -14,10 +15,21 @@ export const reset_satisfied = (requirement: Requirement) => {
   }
 };
 
+const custom_course_satisfied = (course: ICourse, requirement: Requirement): boolean => {
+  if (!(requirement.customRequirementName! in customRequirementsDictionary)) {
+    throw new Error("Custom requirement not found: " + requirement.customRequirementName);
+  }
+  return customRequirementsDictionary.get(requirement.customRequirementName!)!(
+    course,
+    requirement.customRequirementParameter
+  );
+};
+
 export const satisfied_by = (requirement: Requirement, course: ICourse): boolean => {
+  console.log(requirement);
   switch (requirement.type.toLowerCase()) {
     case "custom":
-      return false; //TODO
+      return custom_course_satisfied(course, requirement); //TODO
     case "course":
       return course_codes_equal(course.code, requirement.courseCode!);
     default:
