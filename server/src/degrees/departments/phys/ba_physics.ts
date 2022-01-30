@@ -1,8 +1,8 @@
 import { IDegree } from "src/models/Degree";
 import { Requirement } from "src/models/Degree";
 
-const math_cs_requirements: Requirement = {
-  name: "Math CS",
+const requirements: Requirement = {
+  name: "Physics",
   type: "all",
   requirements: [
     {
@@ -14,7 +14,11 @@ const math_cs_requirements: Requirement = {
           requirements: [
             {
               type: "course",
-              courseCode: "CSCI0190",
+              courseCode: "PHYS0070",
+            },
+            {
+              type: "course",
+              courseCode: "PHYS0160",
             },
           ],
         },
@@ -23,11 +27,11 @@ const math_cs_requirements: Requirement = {
           requirements: [
             {
               type: "course",
-              courseCode: "CSCI0170",
+              courseCode: "PHYS0050",
             },
             {
               type: "course",
-              courseCode: "CSCI0180",
+              courseCode: "PHYS0060",
             },
           ],
         },
@@ -49,8 +53,10 @@ const math_cs_requirements: Requirement = {
   ],
 };
 
-export const degree_math_cs: IDegree = {
-  name: "B.S. Mathematics-Computer Science",
-  requirements: math_cs_requirements,
-  department: "CSCI",
+const degree: IDegree = {
+  name: "B.A. Physics",
+  requirements: requirements,
+  department: "PHYS",
 };
+
+export default degree;
