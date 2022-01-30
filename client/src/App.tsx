@@ -7,6 +7,8 @@ import ISemesterIdentifier from "./types/ISemesterIdentifier";
 import AddSemester from "./components/AddSemester";
 import { ICourseIdentifier } from "./types/ICourseIdentifier";
 import ICourse from "./types/ICourse";
+import IRequirement from "./types/IRequirement";
+import RequirementComponent from "./components/RequirementComponent";
 import {
   Box,
   Button,
@@ -40,6 +42,7 @@ function App() {
   const [selectedDegree, setSelectedDegree] = React.useState<IDegree | undefined>();
 
   const [degrees, setDegrees] = React.useState<IDegree[]>([]);
+  const [degreeAssignment, setDegreeAssignment] = React.useState<IRequirement>();
 
   // modal logic
   const [open, setOpen] = React.useState(false);
@@ -189,6 +192,23 @@ function App() {
     }
   }
 
+  async function handleAssignRequirements(){
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/concentrations/assign`, {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ degreeId: degrees[0]._id }),
+    });
+    if (res.status === 200) {
+      const resJson = await res.json();
+      console.log(resJson);
+      setDegreeAssignment(resJson);
+    }
+  }
+
   async function handleSubmitDegree() {
     handleClose();
     if (selectedDegree) {
@@ -224,6 +244,7 @@ function App() {
     }
   }
 
+
   return (
     <div className="App">
       <Header user={user} />
@@ -238,6 +259,10 @@ function App() {
             </Box>
           ))}
           <Button onClick={handleOpen}>Add Degree</Button>
+          <Button onClick={handleAssignRequirements}>Assign Degree Requirements</Button>
+          {degreeAssignment && (
+            <RequirementComponent requirement={degreeAssignment} /> 
+          )}
         </>
       )}
       {user && userDegrees && userDegrees.length == 0 && (
