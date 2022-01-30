@@ -23,6 +23,8 @@ jobs:
           echo ${{ secrets.ENV_FILE }} > .env
           npm ci
           npm run build
+          rm -r src
+          mv -r dist src
           cd ..
 
       - name: "Authenticate to Google Cloud"

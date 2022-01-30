@@ -15,7 +15,3 @@
 
 # Node.js dependencies:
 node_modules/
-
-# Do not upload src/ (only upload dist/):
-src/
-#!include dist/
