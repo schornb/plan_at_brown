@@ -7,6 +7,7 @@ import ISemesterIdentifier from "./types/ISemesterIdentifier";
 import AddSemester from "./components/AddSemester";
 import { ICourseIdentifier } from "./types/ICourseIdentifier";
 import ICourse from "./types/ICourse";
+import Footer from "./components/Footer";
 
 function App() {
   const [user, setUser] = React.useState<IUser | undefined>();
@@ -149,6 +150,7 @@ function App() {
           />
         ))}
       <AddSemester handleAddSemester={handleAddSemester} />
+      <Footer />
     </div>
   );
 }
