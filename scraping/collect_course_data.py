@@ -77,7 +77,7 @@ def save_all_class_data():
             json.dump(fixed_results, f, indent=4)
         print(code, ":", len(data['results']), "classes")
 
-    with open('scraping/data/courses/complete.json', 'w') as f:
+    with open('scraping/data/courses_complete.json', 'w') as f:
         json.dump(all_results, f, indent=4)
     print("Saved data for " + str(len(codes)) + " courses")
 
