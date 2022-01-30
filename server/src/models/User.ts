@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ICourse } from "./Course";
+import { CourseSchema, ICourse } from "./Course";
 import { IDegree, Requirement } from "./Degree";
 
 const UserSchema = new mongoose.Schema({
@@ -29,14 +29,7 @@ const UserSchema = new mongoose.Schema({
   },
   semesters: [
     {
-      courses: [
-        {
-          course: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Courses",
-          },
-        },
-      ],
+      courses: [CourseSchema],
       completed: Boolean,
       number: Number,
       season: String,
@@ -49,11 +42,14 @@ const UserSchema = new mongoose.Schema({
         ref: "Degrees",
       },
       satisfactions: Object, // JSON Object with value of Requirement
+      degreeTotal: Number,
+      degreeProgress: Number,
     },
   ],
 });
 
 export interface ISemester {
+  _id?: string;
   courses: ICourse[];
   completed: boolean;
   number: number;

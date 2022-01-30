@@ -1,6 +1,6 @@
 import Mongoose from "mongoose";
 
-const CourseSchema = new Mongoose.Schema({
+export const CourseSchema = new Mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -33,6 +33,7 @@ const CourseSchema = new Mongoose.Schema({
 });
 
 export interface ICourse {
+  _id?: string;
   name: string;
   code: string;
   crn: string;

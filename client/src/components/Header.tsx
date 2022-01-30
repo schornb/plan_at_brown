@@ -6,18 +6,16 @@ import AccountMenu from "./AccountMenu";
 
 interface HeaderProps {
   user: IUser | undefined;
-  //   loading: boolean;
 }
 
 export default function Header(props: HeaderProps) {
   const { user } = props;
-  console.log(user);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Plan At Brown
+            Plan@Brown
           </Typography>
           {user ? (
             // <Box sx={{ display: "inline-flex" }}>
