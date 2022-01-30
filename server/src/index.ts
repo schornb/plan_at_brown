@@ -10,6 +10,7 @@ import authRouter from "./routes/auth";
 import coursesRouter from "./routes/courses";
 import concentrationsRouter from "./routes/concentrations";
 import semestersRouter from "./routes/semesters";
+import recommendationsRouter from "./routes/recommendations";
 
 log4js.configure({
   appenders: {
@@ -68,6 +69,7 @@ app.use("/auth", authRouter);
 app.use("/courses", coursesRouter);
 app.use("/concentrations", concentrationsRouter);
 app.use("/semesters", semestersRouter);
+app.use("/recommendations", recommendationsRouter);
 
 app.get("/", (_req, res) => {
   res.send("Hello World!");

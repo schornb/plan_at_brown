@@ -50,6 +50,26 @@ const requirements: Requirement = {
         },
       ],
     },
+    {
+      type: "course",
+      courseCode: "PHYS0470",
+    },
+    {
+      type: "course",
+      courseCode: "PHYS0500",
+    },
+    {
+      type: "course",
+      courseCode: "PHYS0560",
+    },
+    {
+      type: "course",
+      courseCode: "PHYS1410",
+    },
+    {
+      type: "course",
+      courseCode: "PHYS1530",
+    },
   ],
 };
 
